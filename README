@@ -1,0 +1,72 @@
+Nume: Dragne Lavinia-Stefana
+Grupa: 324 CA
+
+		    INTRODUCERE IN ORGANIZAREA CALCULATOARELOR SI LIMBAJ DE ASAMBLARE
+				Tema #3 - "Arbore sintactic abstract"
+
+
+	Continutul proiectului este urmatorul:
+
+	-ast.asm contine codul sursa al programului
+	
+	-acest fisier README.
+
+	Prezentarea solutiei:
+
+	- Functia iocla_atoi
+	
+	Memorez, de pe stiva, in registrul ecx, token-ul pe care il am de transformat in numar. In
+functie de primul sau caracter, retin daca este negativ sau pozitiv, in registrul ebx. Daca este
+negativ, cu ajutorul label-ului add_sign sar peste caracterul '-'. In label-ul construct verific,
+pe rand, daca am ajuns la spatiu sau la '\0', deci s-a terminat sirul. In caz contrar, construiesc
+in eax numarul, inmultind cu 10 mereu, pentru a adauga o noua cifra. La final, ii adaug semnul
+inmultindu-l cu ebx, care poate fi 1 sau -1.
+	
+	- Functia alloc_struct
+
+	Functia primeste ca si parametru un char* data si aloca memorie pentru o structura de tip
+Node, initializand campul de date cu parametrul primit si pointerii de left si right cu 0. Pointerul
+la intreaga structura va fi in edi si returnat in final, prin registrul eax. Pentru a aloca si campul
+de date, din interiorul unui nod, voi apela functia externa strdup. Parametrul trimis functiei
+este memorat in ebx.
+
+	- Functia create_tree
+
+	Primeste ca si parametru string-ul, in forma sa poloneza prefixata si intoarce un pointer la
+radacina arborelui sintactic. Pointerul la string-ul initial este memorat in ecx si salvat si pe
+stiva. De asemenea, salvez pe stiva si root-ul. 
+	Se va apela functia recursiva create_subtree, care construieste arborele, adaugand pe rand
+fiecare nod. 
+
+	- Functie creste_subtree
+
+	Create_subtree primeste ca si parametri root-ul si string-ul, pe baza caruia trebuie sa
+se parseze datele. String-ul este retinut in registrul edi.
+	In label-ul parse_input este apelata functia externa strtok si parsat string-ul pana la ' '
+sau '\n'. Cuvantul rezultat in urma parsarii, este salvat in memorie cu ajutorul variabilei parsed.
+Se apeleaza functia alloc_struct cu parametrul parsed, iar noul nod rezultat este salvat in
+memorie, cu ajutorul variabilei root. Folosind functia strlen, se sare peste cuvantul parsat din
+string, tinandu-se astfel cont de lungimea acestuia. 
+	Se verifica daca cuvantul parsat este sau nu operator, cu ajutorul label-ului 
+verif_is_operator. Acesta tine cont si de cazul in care avem numere cu '-', pentru a nu se confunda
+acesta cu un simbol, de fapt. Daca este operator, folosindu-ma de label-ul is_operator apelez
+recursiv functia create_subtree pentru root->left si string-ul meu, respectiv pentru root->right. De
+asemenea, salvez root-ul dinaintea apelului recursiv, pentru a putea restaura arborele si a face
+legaturile dintre un nod si parintele sau.
+	La final, mut root-ul arborelui salvat in memorie, in registrul eax si il returnez.
+
+	
+	Referinte:
+	
+	In realizarea functiei iocla_atoi m-am folosit de urmatorul link:
+	https://github.com/teodutu/IOCLA/blob/master/Teme/Tema1/tema1.asm
+
+
+
+
+
+
+
+
+
+
